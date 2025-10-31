@@ -754,5 +754,40 @@ margin: 0rem !important;
   <script>
   new CircleType(document.querySelector('.circle-header'));
 </script>
+<script>
+//app write code for get form submissions on email
+document.getElementById("wf-form-Contact-Form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  try {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbz1tZ2CMab-E_GauDT-Jf09qMY6-aYvyc-UqJnedt5kxTtnqq_VMwO3UU299uH8ITVzLw/exec", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (res.ok) {
+      // Show success message (Webflow default)
+      document.querySelector(".w-form-done").style.display = "block";
+      document.querySelector(".w-form-fail").style.display = "none";
+      form.style.display = "none";
+      form.reset();
+    } else {
+      throw new Error("Network response was not ok");
+    }
+  } catch (err) {
+    // Show Webflow’s error message
+    document.querySelector(".w-form-fail").style.display = "block";
+    document.querySelector(".w-form-done").style.display = "none";
+    console.error(err);
+  }
+});
+
+
+  
+</script>
 </body>
 </html>
